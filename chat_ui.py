@@ -1,25 +1,20 @@
-from PySide6 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets
 from message_bubble import MessageBubble
 
 class ChatWindow(QtWidgets.QMainWindow):
     """
     Chat-style main window prepared for future LLM integration.
-    - Left/right aligned bubbles based on sender
-    - Scrollable history
-    - Input area with Ctrl+Enter to send
-    - F11 toggles fullscreen
     """
-    sendRequested = QtCore.Signal(str)  # (PySide6) use Signal
+    sendRequested = QtCore.pyqtSignal(str)  # PyQt5 signal
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Jetson Orin Nano — LLM UI (Phase 1, PySide6)")
+        self.setWindowTitle("Jetson Orin Nano — LLM UI (Phase 1, PyQt5)")
         self.resize(980, 720)
 
         self._build_ui()
         self._wire_shortcuts()
 
-        # For Phase 2 you can connect this signal to an LLM handler
         self.sendRequested.connect(self._on_user_send)
 
     # ---------- UI layout ----------
@@ -34,7 +29,7 @@ class ChatWindow(QtWidgets.QMainWindow):
         # Scroll area for chat history
         self.scrollArea = QtWidgets.QScrollArea(self)
         self.scrollArea.setWidgetResizable(True)
-        self.scrollArea.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self.scrollArea.setFrameShape(QtWidgets.QFrame.NoFrame)
         root.addWidget(self.scrollArea, stretch=1)
 
         self.historyContainer = QtWidgets.QWidget()
@@ -60,15 +55,14 @@ class ChatWindow(QtWidgets.QMainWindow):
 
         self.sendBtn = QtWidgets.QPushButton("Send")
         self.sendBtn.setDefault(True)
-        self.sendBtn.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.sendBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.sendBtn.clicked.connect(self._emit_send)
         inputRow.addWidget(self.sendBtn, stretch=0)
 
         # Status bar
         self.status = self.statusBar()
-        self.status.showMessage("Phase 1 — UI only (PySide6)")
+        self.status.showMessage("Phase 1 — UI only (PyQt5)")
 
-        # Initial style (simple, readable)
         self._apply_styles()
 
     def _apply_styles(self):
@@ -99,13 +93,13 @@ class ChatWindow(QtWidgets.QMainWindow):
 
     def _wire_shortcuts(self):
         # Ctrl+Enter to send
-        send_shortcut = QtGui.QShortcut(QtGui.QKeySequence("Ctrl+Return"), self)
+        send_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence("Ctrl+Return"), self)
         send_shortcut.activated.connect(self._emit_send)
-        send_shortcut2 = QtGui.QShortcut(QtGui.QKeySequence("Ctrl+Enter"), self)
+        send_shortcut2 = QtWidgets.QShortcut(QtGui.QKeySequence("Ctrl+Enter"), self)
         send_shortcut2.activated.connect(self._emit_send)
 
         # F11 fullscreen toggle
-        full_shortcut = QtGui.QShortcut(QtGui.QKeySequence("F11"), self)
+        full_shortcut = QtWidgets.QShortcut(QtGui.QKeySequence("F11"), self)
         full_shortcut.activated.connect(self._toggle_fullscreen)
 
     # ---------- Public API ----------
@@ -116,7 +110,7 @@ class ChatWindow(QtWidgets.QMainWindow):
         align_right = (role == "user")
         bubble = MessageBubble(text=text, align_right=align_right, role=role, parent=self.historyContainer)
         # Insert above the stretch
-        self.historyLayout.insertWidget(self.historyLayout.count() - 1, bubble, 0, QtCore.Qt.AlignmentFlag.AlignLeft)
+        self.historyLayout.insertWidget(self.historyLayout.count() - 1, bubble, 0, QtCore.Qt.AlignLeft)
         QtCore.QTimer.singleShot(0, self._ensure_visible)
 
     def set_typing(self, on: bool):
@@ -166,7 +160,7 @@ class GrowingTextEdit(QtWidgets.QPlainTextEdit):
     """
     Grows up to a max height as the user types, then scrolls.
     """
-    textHeightChanged = QtCore.Signal(int)  # (PySide6) use Signal
+    textHeightChanged = QtCore.pyqtSignal(int)  # PyQt5 signal
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

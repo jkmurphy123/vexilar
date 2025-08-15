@@ -1,4 +1,4 @@
-from PySide6 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 class MessageBubble(QtWidgets.QFrame):
     """
@@ -16,8 +16,8 @@ class MessageBubble(QtWidgets.QFrame):
         outer = QtWidgets.QHBoxLayout(self)
         outer.setContentsMargins(0, 0, 0, 0)
 
-        spacer_left = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        spacer_right = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        spacer_left = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacer_right = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
 
         if align_right:
             outer.addItem(spacer_left)
@@ -25,15 +25,15 @@ class MessageBubble(QtWidgets.QFrame):
         # Bubble container
         self.inner = QtWidgets.QFrame(self)
         self.inner.setObjectName("Bubble")
-        self.inner.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self.inner.setFrameShape(QtWidgets.QFrame.NoFrame)
         inner_layout = QtWidgets.QVBoxLayout(self.inner)
         inner_layout.setContentsMargins(14, 10, 14, 10)
 
         self.label = QtWidgets.QLabel(self.inner)
         self.label.setWordWrap(True)
         self.label.setTextInteractionFlags(
-            QtCore.Qt.TextInteractionFlag.TextSelectableByMouse |
-            QtCore.Qt.TextInteractionFlag.LinksAccessibleByMouse
+            QtCore.Qt.TextSelectableByMouse |
+            QtCore.Qt.LinksAccessibleByMouse
         )
         font = self.label.font()
         font.setPointSize(11)
@@ -72,8 +72,8 @@ class MessageBubble(QtWidgets.QFrame):
 
     def _set_colors(self, widget, bg: QtGui.QColor, fg: QtGui.QColor):
         pal = widget.palette()
-        pal.setColor(QtGui.QPalette.ColorRole.Window, bg)
-        pal.setColor(QtGui.QPalette.ColorRole.WindowText, fg)
+        pal.setColor(QtGui.QPalette.Window, bg)
+        pal.setColor(QtGui.QPalette.WindowText, fg)
         widget.setAutoFillBackground(True)
         widget.setPalette(pal)
         widget.setStyleSheet(f"QFrame#Bubble {{ background-color: {bg.name()}; color: {fg.name()}; }}")
