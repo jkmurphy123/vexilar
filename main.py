@@ -1,5 +1,5 @@
-from PyQt6.QtWidgets import QApplication
-from PyQt6.QtCore import QTimer
+from PySide6 import QtCore, QtGui, QtWidgets
+
 import sys
 
 from chat_ui import ChatWindow
