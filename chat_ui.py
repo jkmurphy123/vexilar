@@ -9,11 +9,11 @@ class ChatWindow(QtWidgets.QMainWindow):
     - Input area with Ctrl+Enter to send
     - F11 toggles fullscreen
     """
-    sendRequested = QtCore.pyqtSignal(str)  # emitted when user presses send
+    sendRequested = QtCore.Signal(str)  # (PySide6) use Signal
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Jetson Orin Nano — LLM UI (Phase 1)")
+        self.setWindowTitle("Jetson Orin Nano — LLM UI (Phase 1, PySide6)")
         self.resize(980, 720)
 
         self._build_ui()
@@ -66,7 +66,7 @@ class ChatWindow(QtWidgets.QMainWindow):
 
         # Status bar
         self.status = self.statusBar()
-        self.status.showMessage("Phase 1 — UI only")
+        self.status.showMessage("Phase 1 — UI only (PySide6)")
 
         # Initial style (simple, readable)
         self._apply_styles()
@@ -142,7 +142,6 @@ class ChatWindow(QtWidgets.QMainWindow):
         """
         Phase 1: UI echo. Phase 2: replace with LLM call.
         """
-        # (Optional) quick echo so UI feels alive during Phase 1
         self.set_typing(True)
         QtCore.QTimer.singleShot(300, lambda: self._finish_echo(text))
 
@@ -167,7 +166,7 @@ class GrowingTextEdit(QtWidgets.QPlainTextEdit):
     """
     Grows up to a max height as the user types, then scrolls.
     """
-    textHeightChanged = QtCore.pyqtSignal(int)
+    textHeightChanged = QtCore.Signal(int)  # (PySide6) use Signal
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

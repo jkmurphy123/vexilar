@@ -1,5 +1,5 @@
-from PySide6 import QtCore, QtGui, QtWidgets
-
+from PySide6.QtWidgets import QApplication
+from PySide6.QtCore import QTimer
 import sys
 
 from chat_ui import ChatWindow
@@ -12,7 +12,7 @@ def main():
     win.show()
 
     # Optional: show a welcome message after the window is visible
-    QTimer.singleShot(150, lambda: win.add_message("system", "Welcome! Phase 1 UI is running."))
+    QTimer.singleShot(150, lambda: win.add_message("system", "Welcome! Phase 1 UI (PySide6) is running."))
 
     sys.exit(app.exec())
 

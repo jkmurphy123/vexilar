@@ -42,7 +42,6 @@ class MessageBubble(QtWidgets.QFrame):
         inner_layout.addWidget(self.label)
 
         # Apply role styles
-        pal = self.inner.palette()
         if role == "user":
             bg = QtGui.QColor("#1f2a44")
             fg = QtGui.QColor("#e9f0ff")
