@@ -3,12 +3,10 @@ A GUI framework for LLM on a Jetson Orin Nano
 
 Basic setup:
 
-python3 -m venv llm_env   #one-time setup
+Intall PyQt5 at the system level
 
-If PyQt6 fails to install via pip:
+python3 -m venv llm_env --system-site-packages   
 
-pip install -r requirements.txt --no-deps --ignore-installed
-sudo apt install python3-pyqt6
 
 Running the App:
 
